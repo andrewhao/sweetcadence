@@ -6,6 +6,7 @@
 
 var UI = require('ui');
 var Vector2 = require('vector2');
+var AccelerometerManager = require('accelerometerManager');
 
 var main = new UI.Card({
   title: 'Pebble.js',
@@ -56,3 +57,5 @@ main.on('click', 'down', function(e) {
   card.body('The simplest window type in Pebble.js.');
   card.show();
 });
+
+AccelerometerManager.observe();

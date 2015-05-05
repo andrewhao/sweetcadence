@@ -1,0 +1,23 @@
+{
+  "name": "sweetcadence",
+  "version": "1.0.0",
+  "description": "Pebble-based run cadence sensor. Sweet.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/andrewhao/sweetcadence.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/andrewhao/sweetcadence/issues"
+  },
+  "homepage": "https://github.com/andrewhao/sweetcadence",
+  "devDependencies": {
+    "baconjs": "^0.7.53",
+    "mocha": "^2.2.4"
+  }
+}
