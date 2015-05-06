@@ -17,8 +17,17 @@ var AccelerometerManager = {
       console.log('Tap event on axis: ' + e.axis + ' and direction: ' + e.direction);
     });
     
-    Accel.on('data', function(e) {
-      console.log('Just received ' + JSON.stringify(e.accels) + ' from the accelerometer.');
+    var dataStream = Bacon.fromEvent(Accel, 'data');
+    var historicalStream = dataStream.slidingWindow(2, 2)
+    
+    
+    historicalStream.onValue(function(samples) {
+      var first = samples[0];
+      var second = samples[1];
+      var deltaX = second.accel.x - first.accel.x
+      var deltaY = second.accel.y - first.accel.y
+      var deltaZ = second.accel.z - first.accel.z
+      console.log("x: " + deltaX + " y: " + deltaY + " z: " + deltaZ);
     });
   }
 };
