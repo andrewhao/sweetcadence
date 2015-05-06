@@ -1,11 +1,9 @@
-var Accel = require ('ui/accel');
+var Bacon = require('bacon');
+var Accel = require('ui/accel');
 var AccelerometerManager = {
-  observe: function() {
-    console.log('observing');
-  },
   init: function() {
     Accel.config({
-      rate: 100,
+      rate: 10,
       samples: 25,
     });
     
@@ -20,7 +18,7 @@ var AccelerometerManager = {
     });
     
     Accel.on('data', function(e) {
-      console.log('Just received ' + JSON.stringify(e) + ' from the accelerometer.');
+      console.log('Just received ' + JSON.stringify(e.accels) + ' from the accelerometer.');
     });
   }
 };
