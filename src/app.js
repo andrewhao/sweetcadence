@@ -58,4 +58,4 @@ main.on('click', 'down', function(e) {
   card.show();
 });
 
-AccelerometerManager.observe();
+AccelerometerManager.init();
