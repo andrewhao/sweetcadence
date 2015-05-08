@@ -12,14 +12,14 @@ var AccelerometerManager = {
 
   startRecording: function(uiCard) {
     var dataStream = Bacon.fromEvent(Accel, 'data');
-
+    /*
     dataStream.onValue(function(data) {
-      console.log("-----");
       uiCard.subtitle(data.accel.x);
       data.accels.forEach(function(a) {
         console.log([a.x, a.y, a.z]);
       });
     });
+    */
 
     var historicalStream = dataStream.slidingWindow(2, 2)
 
@@ -29,6 +29,8 @@ var AccelerometerManager = {
       var deltaX = second.accel.x - first.accel.x
       var deltaY = second.accel.y - first.accel.y
       var deltaZ = second.accel.z - first.accel.z
+      var deltaTime = second.accel.time - first.accel.time
+      console.log([deltaX/deltaTime, deltaY/deltaTime, deltaZ/deltaTime]);
       //console.log("x: " + deltaX + " y: " + deltaY + " z: " + deltaZ);
     });
   }
