@@ -6,5 +6,5 @@
 
 var AccelerometerManager = require('accelerometerManager');
 var WindowLayoutManager = require('windowLayoutManager');
-WindowLayoutManager.init();
 AccelerometerManager.init();
+WindowLayoutManager.init(AccelerometerManager);
