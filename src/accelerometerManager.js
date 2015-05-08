@@ -10,6 +10,10 @@ var AccelerometerManager = {
     Accel.init();
   },
 
+  stopRecording: function() {
+    Accel.off();
+  }
+
   startRecording: function(uiCard) {
     var dataStream = Bacon.fromEvent(Accel, 'data');
     /*

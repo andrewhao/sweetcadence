@@ -37,6 +37,9 @@ WindowLayoutManager = {
       card.title('Started Recording');
       AccelerometerManager.startRecording(card);
       card.show();
+      card.on('back', function() {
+        AccelerometerManager.stopRecording();
+      })
     });
 
     main.on('click', 'down', function(e) {
