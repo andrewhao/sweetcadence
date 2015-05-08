@@ -8,11 +8,14 @@ var AccelerometerManager = {
     });
 
     Accel.init();
+  },
 
+  startRecording: function(uiCard) {
     var dataStream = Bacon.fromEvent(Accel, 'data');
 
     dataStream.onValue(function(data) {
       console.log("-----");
+      uiCard.subtitle(data.accel.x);
       data.accels.forEach(function(a) {
         console.log([a.x, a.y, a.z]);
       });
