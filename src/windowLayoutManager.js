@@ -3,7 +3,7 @@ var Vector2 = require('vector2');
 
 var WindowLayoutManager = function(accelManager) {
   this.accelManager = accelManager;
-}
+};
 
 WindowLayoutManager.prototype = {
   init: function() {
@@ -43,7 +43,7 @@ WindowLayoutManager.prototype = {
       card.show();
       card.on('back', function() {
         this.accelManager.stopRecording();
-      })
+      });
     });
 
     main.on('click', 'down', function(e) {
@@ -54,6 +54,6 @@ WindowLayoutManager.prototype = {
       card.show();
     });
   }
-}
+};
 
 module.exports = WindowLayoutManager;
