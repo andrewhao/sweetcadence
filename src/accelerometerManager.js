@@ -1,7 +1,7 @@
 // Wraps around the Accel library and provides higher-level event stream.
 var Bacon = require('bacon');
 
-var AccelerometerManager = function(config, accel) {
+var AccelerometerManager = function(accel, config) {
   this.config = config || {rate: 10, samples: 25};
   this.accel = accel;
 };
