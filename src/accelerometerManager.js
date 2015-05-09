@@ -1,21 +1,23 @@
+// Wraps around the Accel library and provides higher-level event stream.
 var Bacon = require('bacon');
-var Accel = require('ui/accel');
-var AccelerometerManager = {
-  init: function() {
-    Accel.config({
-      rate: 10,
-      samples: 25,
-    });
 
-    Accel.init();
+var AccelerometerManager = function(config, accel) {
+  this.config = config || {rate: 10, samples: 25};
+  this.accel = accel;
+}
+
+AccelerometerManager.prototype = {
+  init: function() {
+    this.accel.config(this.config);
+    this.accel.init();
   },
 
   stopRecording: function() {
-    Accel.off();
+    this.accel.off();
   }
 
   startRecording: function(uiCard) {
-    var dataStream = Bacon.fromEvent(Accel, 'data');
+    var dataStream = Bacon.fromEvent(this.accel, 'data');
     /*
     dataStream.onValue(function(data) {
       uiCard.subtitle(data.accel.x);

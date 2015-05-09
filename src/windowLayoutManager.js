@@ -1,8 +1,12 @@
 var UI = require('ui');
 var Vector2 = require('vector2');
 
-WindowLayoutManager = {
-  init: function(AccelerometerManager) {
+var WindowLayoutManager = function(accelManager) {
+  this.accelManager = accelManager;
+}
+
+WindowLayoutManager.prototype = {
+  init: function() {
     var main = new UI.Card({
       title: 'Pebble.js',
       icon: 'images/menu_icon.png',
@@ -35,10 +39,10 @@ WindowLayoutManager = {
     main.on('click', 'select', function(e) {
       var card = new UI.Card();
       card.title('Started Recording');
-      AccelerometerManager.startRecording(card);
+      this.accelManager.startRecording(card);
       card.show();
       card.on('back', function() {
-        AccelerometerManager.stopRecording();
+        this.accelManager.stopRecording();
       })
     });
 
