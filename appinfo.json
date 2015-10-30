@@ -31,11 +31,17 @@
             }
         ]
     },
+    "sdkVersion": "3",
     "shortName": "sweetcadence",
+    "targetPlatforms": [
+        "aplite",
+        "basalt"
+    ],
     "uuid": "0bfe0cec-a2dc-41ad-9b45-5cafd3b83dd5",
     "versionCode": 1,
     "versionLabel": "1.0",
     "watchapp": {
+        "hiddenApp": false,
         "watchface": false
     }
 }

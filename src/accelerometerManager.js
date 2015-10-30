@@ -3,9 +3,6 @@ var Bacon = require('bacon');
 var QuickCadence = require('quickCadence');
 var inspect = require('objectInspect');
 
-console.log(inspect(QuickCadence));
-console.log(inspect(QuickCadence.pipe));
-
 var AccelerometerManager = function(accel, config) {
   this.config = config || {rate: 10, samples: 25};
   this.accel = accel;
@@ -22,16 +19,10 @@ AccelerometerManager.prototype = {
   },
 
   startRecording: function(uiCard) {
-
-    console.log(inspect(uiCard));
-
-    var dataStream = Bacon.fromEvent(this.accel, 'data');
-
-    console.log(inspect(dataStream));
+    var dataStream = Bacon.fromEvent(this.accel, 'data').map('.accel')
+    dataStream.onValue(function(v) { console.log(inspect(v)) });
 
     var cadenceStream = QuickCadence.pipe(dataStream);
-
-    console.log(inspect(cadenceStream));
 
     cadenceStream.onValue(function(cadenceValue) {
       uiCard.subtitle(cadenceValue);
