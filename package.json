@@ -20,5 +20,9 @@
     "baconjs": "^0.7.53",
     "mocha": "^2.2.4",
     "rewire": "^2.3.3"
+  },
+  "dependencies": {
+    "baconjs": "^0.7.79",
+    "quickcadence": "^0.1.1"
   }
 }

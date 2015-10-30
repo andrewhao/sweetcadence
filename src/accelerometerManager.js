@@ -1,5 +1,6 @@
 // Wraps around the Accel library and provides higher-level event stream.
 var Bacon = require('bacon');
+var QuickCadence = require('quickcadence');
 
 var AccelerometerManager = function(accel, config) {
   this.config = config || {rate: 10, samples: 25};
@@ -18,26 +19,11 @@ AccelerometerManager.prototype = {
 
   startRecording: function(uiCard) {
     var dataStream = Bacon.fromEvent(this.accel, 'data');
-    /*
-    dataStream.onValue(function(data) {
-      uiCard.subtitle(data.accel.x);
-      data.accels.forEach(function(a) {
-        console.log([a.x, a.y, a.z]);
-      });
-    });
-    */
+    var cadenceStream = QuickCadence.pipe(dataStream);
 
-    var historicalStream = dataStream.slidingWindow(2, 2);
-
-    historicalStream.onValue(function(samples) {
-      var first = samples[0];
-      var second = samples[1];
-      var deltaX = second.accel.x - first.accel.x;
-      var deltaY = second.accel.y - first.accel.y;
-      var deltaZ = second.accel.z - first.accel.z;
-      var deltaTime = second.accel.time - first.accel.time;
-      console.log([deltaX/deltaTime, deltaY/deltaTime, deltaZ/deltaTime]);
-      //console.log("x: " + deltaX + " y: " + deltaY + " z: " + deltaZ);
+    cadenceStream.onValue(function(cadenceValue) {
+      uiCard.subtitle(cadenceValue);
+      console.log(cadenceValue);
     });
   }
 };
