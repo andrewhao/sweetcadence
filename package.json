@@ -18,8 +18,8 @@
   "homepage": "https://github.com/andrewhao/sweetcadence",
   "devDependencies": {
     "baconjs": "^0.7.53",
-    "json-inspect": "^1.0.0",
     "mocha": "^2.2.4",
+    "object-inspect": "^1.0.2",
     "rewire": "^2.3.3"
   },
   "dependencies": {
