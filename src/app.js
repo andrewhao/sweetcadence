@@ -5,10 +5,10 @@
  */
 
 var AccelerometerManager = require('accelerometerManager');
-var WindowLayoutManager = require('windowLayoutManager');
+var AppController = require('appController');
 var Accel = require('ui/accel');
 
 var accelManager = new AccelerometerManager(Accel);
-var windowLayoutManager = new WindowLayoutManager(accelManager);
+var appController = new AppController(accelManager);
 accelManager.init();
-windowLayoutManager.init();
+appController.init();

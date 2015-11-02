@@ -1,11 +1,11 @@
 var UI = require('ui');
 var Vector2 = require('vector2');
 
-var WindowLayoutManager = function(accelManager) {
+var AppController = function(accelManager) {
   this.accelManager = accelManager;
 };
 
-WindowLayoutManager.prototype = {
+AppController.prototype = {
   init: function() {
     var self = this;
 
@@ -58,4 +58,4 @@ WindowLayoutManager.prototype = {
   }
 };
 
-module.exports = WindowLayoutManager;
+module.exports = AppController;
