@@ -10,50 +10,22 @@ AppController.prototype = {
     var self = this;
 
     var main = new UI.Card({
-      title: 'Pebble.js',
+      title: 'Sweetcadence',
       icon: 'images/menu_icon.png',
-      subtitle: 'Hello World!',
-      body: 'Press any button.'
+      subtitle: 'Click select to start recording',
     });
 
     main.show();
-
-    main.on('click', 'up', function(e) {
-      var menu = new UI.Menu({
-        sections: [{
-          items: [{
-            title: 'Pebble.js',
-            icon: 'images/menu_icon.png',
-            subtitle: 'Can do Menus'
-          }, {
-            title: 'Second Item',
-            subtitle: 'Subtitle Text'
-          }]
-        }]
-      });
-      menu.on('select', function(e) {
-        console.log('Selected item #' + e.itemIndex + ' of section #' + e.sectionIndex);
-        console.log('The item is titled "' + e.item.title + '"');
-      });
-      menu.show();
-    });
 
     main.on('click', 'select', function(e) {
       var card = new UI.Card();
       card.title('Started Recording');
       self.accelManager.startRecording(card);
       card.show();
-      card.on('back', function() {
+      card.on('hide', function() {
+        main.subtitle("Recording stopped.");
         self.accelManager.stopRecording();
       });
-    });
-
-    main.on('click', 'down', function(e) {
-      var card = new UI.Card();
-      card.title('A Card');
-      card.subtitle('Is a Window');
-      card.body('The simplest window type in Pebble.js.');
-      card.show();
     });
   }
 };

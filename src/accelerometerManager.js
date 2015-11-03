@@ -1,7 +1,7 @@
 // Wraps around the Accel library and provides higher-level event stream.
-var Bacon = require('./vendor/bacon');
-var QuickCadence = require('./quickCadence');
-var inspect = require('./vendor/objectInspect');
+var Bacon = require('./js/vendor/bacon');
+var QuickCadence = require('./js/quickCadence');
+var inspect = require('./js/vendor/objectInspect');
 
 var AccelerometerManager = function(accel, config) {
   this.config = config || {rate: 10, samples: 25};
