@@ -1,6 +1,7 @@
 var UI = require('ui'),
 Vector2 = require('vector2'),
-Bacon = require('./js/vendor/bacon.js');
+Bacon = require('./js/vendor/bacon.js'),
+inspect = require('./js/vendor/objectInspect');
 
 var AppController = function(accelManager) {
   this.accelManager = accelManager;
@@ -23,14 +24,14 @@ AppController.prototype = {
     .onValue(function() {
       mainCard.subtitle("Recording stopped.");
       self.accelManager.stopRecording();
-    })
+    });
 
     this.mainRecordToggleStream = Bacon.fromBinder(function(sink) {
-      mainCard.on('click','select', function(e) { sink(e) } );
-    })
-
+      mainCard.on('click', 'select', function(e) { sink(e) } );
+    });
+    
     // First start, initialize all the right things.
-    this.mainRecordToggleStream.once(function(e) {
+    this.mainRecordToggleStream.onValue(function(e) {
       recordingCard.title('Started Recording');
       recordingCard.show();
       self.accelManager.startRecording();

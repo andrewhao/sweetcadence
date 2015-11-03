@@ -18,20 +18,18 @@ AccelerometerManager.prototype = {
    * Call this once to stop events.
    * @param Function callback
    */
-  stopRecording: function(callback) {
-    this.accel.off();
-    callback();
+  stopRecording: function() {
+    return this.accel.off();
   },
 
   /**
    * Sets up and connects the accelerometer events to a stream.
    * @param Function callback
    */
-  startRecording: function(callback) {
+  startRecording: function() {
     var dataStream = Bacon.fromEvent(this.accel, 'data').map('.accel')
     dataStream.onValue(function(v) { console.log(inspect(v)) });
     this.cadenceStream = QuickCadence.pipe(dataStream);
-    callback();
   },
 
   /**
