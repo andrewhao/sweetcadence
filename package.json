@@ -4,7 +4,7 @@
   "description": "Pebble-based run cadence sensor. Sweet.",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "mocha"
   },
   "repository": {
     "type": "git",
@@ -22,7 +22,8 @@
     "gulp-watch": "^4.3.5",
     "mocha": "^2.2.4",
     "object-inspect": "^1.0.2",
-    "rewire": "^2.3.3"
+    "rewire": "^2.3.3",
+    "sinon": "^1.17.2"
   },
   "dependencies": {
     "baconjs": "^0.7.79",

@@ -29,7 +29,7 @@ AppController.prototype = {
     this.mainRecordToggleStream = Bacon.fromBinder(function(sink) {
       mainCard.on('click', 'select', function(e) { sink(e) } );
     });
-    
+
     // First start, initialize all the right things.
     this.mainRecordToggleStream.onValue(function(e) {
       recordingCard.title('Started Recording');
