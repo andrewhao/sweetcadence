@@ -14,20 +14,34 @@ AccelerometerManager.prototype = {
     this.accel.init();
   },
 
-  stopRecording: function() {
+  /**
+   * Call this once to stop events.
+   * @param Function callback
+   */
+  stopRecording: function(callback) {
     this.accel.off();
+    callback();
   },
 
-  startRecording: function(uiCard) {
+  /**
+   * Sets up and connects the accelerometer events to a stream.
+   * @param Function callback
+   */
+  startRecording: function(callback) {
     var dataStream = Bacon.fromEvent(this.accel, 'data').map('.accel')
     dataStream.onValue(function(v) { console.log(inspect(v)) });
+    this.cadenceStream = QuickCadence.pipe(dataStream);
+    callback();
+  },
 
-    var cadenceStream = QuickCadence.pipe(dataStream);
-
-    cadenceStream.onValue(function(cadenceValue) {
-      uiCard.subtitle(cadenceValue);
-      console.log(cadenceValue);
-    });
+  /**
+   * Register a callback.
+   * @param  Function   callback A function callback,
+   *                             taking a Float cadence value.
+   * @return Observable Bacon.js observable stream
+   */
+  onCadenceValue: function(callback) {
+    return this.cadenceStream.onValue(callback);
   }
 };
 

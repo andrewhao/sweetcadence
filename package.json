@@ -17,7 +17,9 @@
   },
   "homepage": "https://github.com/andrewhao/sweetcadence",
   "devDependencies": {
-    "baconjs": "^0.7.53",
+    "gulp": "^3.9.0",
+    "gulp-eslint": "^1.0.0",
+    "gulp-watch": "^4.3.5",
     "mocha": "^2.2.4",
     "object-inspect": "^1.0.2",
     "rewire": "^2.3.3"

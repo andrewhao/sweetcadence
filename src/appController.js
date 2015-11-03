@@ -1,6 +1,6 @@
 var UI = require('ui'),
-    Vector2 = require('vector2'),
-    Bacon = require('./js/vendor/bacon.js');
+Vector2 = require('vector2'),
+Bacon = require('./js/vendor/bacon.js');
 
 var AppController = function(accelManager) {
   this.accelManager = accelManager;
@@ -15,23 +15,29 @@ AppController.prototype = {
       icon: 'images/menu_icon.png',
       subtitle: 'Click select to start recording',
     });
+
     var recordingCard = new UI.Card();
     mainCard.show();
-    
-   
-    var cardBackToggleStream = Bacon.fromEvent(recordingCard, 'hide')
-      .onValue(function() {
-        mainCard.subtitle("Recording stopped.");
-        self.accelManager.stopRecording();
-      })
-    
-    var mainRecordToggleStream = Bacon.fromBinder(function(sink) {
+
+    this.cardBackToggleStream = Bacon.fromEvent(recordingCard, 'hide')
+    .onValue(function() {
+      mainCard.subtitle("Recording stopped.");
+      self.accelManager.stopRecording();
+    })
+
+    this.mainRecordToggleStream = Bacon.fromBinder(function(sink) {
       mainCard.on('click','select', function(e) { sink(e) } );
-    }).onValue(function(e) {
-        recordingCard.title('Started Recording');
-        self.accelManager.startRecording(recordingCard);
-        recordingCard.show();
+    })
+
+    // First start, initialize all the right things.
+    this.mainRecordToggleStream.once(function(e) {
+      recordingCard.title('Started Recording');
+      recordingCard.show();
+      self.accelManager.startRecording();
+      self.accelManager.onCadenceValue(function(cadenceValue) {
+        recordingCard.subtitle(cadenceValue);
       });
+    })
   }
 };
 
