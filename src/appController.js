@@ -20,17 +20,26 @@ AppController.prototype = {
     var recordingCard = new UI.Card();
     mainCard.show();
 
-    this.cardBackToggleStream = Bacon.fromEvent(recordingCard, 'hide')
-    .onValue(function() {
-      mainCard.subtitle("Recording stopped.");
-      self.accelManager.stopRecording();
-    });
+    /**
+     * Streams
+     */
 
+    this.cardBackToggleStream = Bacon.fromEvent(recordingCard, 'hide');
     this.mainRecordToggleStream = Bacon.fromBinder(function(sink) {
       mainCard.on('click', 'select', function(e) { sink(e) } );
     });
 
-    // First start, initialize all the right things.
+    /**
+     * Behaviors/side-effects
+     */
+
+    // Side effect of clicking back is to stop listening to accelerometer events.
+    this.cardBackToggleStream.onValue(function() {
+      mainCard.subtitle("Recording stopped.");
+      self.accelManager.stopRecording();
+    });
+
+    // Side effect of clicking select on the main card is to begin listening to the accelerometer.
     this.mainRecordToggleStream.onValue(function(e) {
       recordingCard.title('Started Recording');
       recordingCard.show();
