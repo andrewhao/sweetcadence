@@ -1,5 +1,6 @@
-var UI = require('ui');
-var Vector2 = require('vector2');
+var UI = require('ui'),
+    Vector2 = require('vector2'),
+    Bacon = require('./js/vendor/bacon.js');
 
 var AppController = function(accelManager) {
   this.accelManager = accelManager;
@@ -9,24 +10,28 @@ AppController.prototype = {
   init: function() {
     var self = this;
 
-    var main = new UI.Card({
+    var mainCard = new UI.Card({
       title: 'Sweetcadence',
       icon: 'images/menu_icon.png',
       subtitle: 'Click select to start recording',
     });
-
-    main.show();
-
-    main.on('click', 'select', function(e) {
-      var card = new UI.Card();
-      card.title('Started Recording');
-      self.accelManager.startRecording(card);
-      card.show();
-      card.on('hide', function() {
-        main.subtitle("Recording stopped.");
+    var recordingCard = new UI.Card();
+    mainCard.show();
+    
+   
+    var cardBackToggleStream = Bacon.fromEvent(recordingCard, 'hide')
+      .onValue(function() {
+        mainCard.subtitle("Recording stopped.");
         self.accelManager.stopRecording();
+      })
+    
+    var mainRecordToggleStream = Bacon.fromBinder(function(sink) {
+      mainCard.on('click','select', function(e) { sink(e) } );
+    }).onValue(function(e) {
+        recordingCard.title('Started Recording');
+        self.accelManager.startRecording(recordingCard);
+        recordingCard.show();
       });
-    });
   }
 };
 
