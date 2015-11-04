@@ -1,7 +1,7 @@
 var UI = require('ui'),
-Vector2 = require('vector2'),
-Bacon = require('./js/vendor/bacon.js'),
-inspect = require('./js/vendor/objectInspect');
+    Vector2 = require('vector2'),
+    Bacon = require('./js/vendor/bacon.js'),
+    inspect = require('./js/vendor/objectInspect');
 
 STARTED = 0;
 PAUSED  = 1;
