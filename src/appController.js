@@ -61,7 +61,7 @@ AppController.prototype = {
       CARD_HIDDEN: STOPPED
     };
 
-    var recordingState = recordingCardDidEnter
+    var sensorEventStream = recordingCardDidEnter
       .merge(recordingCardDidHide)
       .merge(recordingCardDidSelect)
       .scan(STOPPED, function(currentState, event) {
@@ -73,40 +73,41 @@ AppController.prototype = {
         }
       });
 
-    var stopRecordingStream = recordingState.filter(function(v) { return v === STOPPED; });
-    var startRecordingStream = recordingState.filter(function(v) { return v === STARTED; });
-    var pauseRecordingStream = recordingState.filter(function(v) { return v === PAUSED; });
+    var stopRecordingStream = sensorEventStream.filter(function(v) { return v === STOPPED; });
+    var startRecordingStream = sensorEventStream.filter(function(v) { return v === STARTED; });
+    var pauseRecordingStream = sensorEventStream.filter(function(v) { return v === PAUSED; });
 
     /**
      * Behaviors/side-effects
      */
 
-    recordingState.onValue(function(v) { console.log("recording state:", v); });
+    sensorEventStream.onValue(function(v) { console.log("recording state:", v); });
 
     pauseRecordingStream.onValue(function(v) {
-      console.log("recording card: paused") ;
+      console.log("paused listening.") ;
       recordingCard.title('Paused Recording');
-      self.accelManager.stopRecording();
-    });
-
-    recordingCardSelectStream.onValue(function(e) {
-      console.log("recording card: clicked select");
     });
 
     // Side effect of clicking back is to stop listening to accelerometer events.
     stopRecordingStream.onValue(function() {
-      console.log("recording card: hiding");
+      console.log("stopped listening.");
       mainCard.subtitle("Recording stopped.");
-      self.accelManager.stopRecording();
     });
+
+    pauseRecordingStream
+      .merge(stopRecordingStream)
+      .onValue(function() {
+        self.accelManager.stopRecording();
+      });
 
     // Side effect of clicking select on the main card is to begin listening to the accelerometer.
     startRecordingStream.onValue(function(e) {
-      console.log("main card: clicked select");
+      console.log("started cadence calculation.");
       recordingCard.title('Started Recording');
       recordingCard.show();
-      self.accelManager.startRecording();
-      self.accelManager.onCadenceValue(function(cadenceValue) {
+
+      self.cadenceUpdateStream = self.accelManager.startRecording();
+      self.cadenceUpdateStream.onValue(function(cadenceValue) {
         recordingCard.subtitle(cadenceValue);
       });
     });
