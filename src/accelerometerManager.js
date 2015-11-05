@@ -22,15 +22,7 @@ AccelerometerManager.prototype = {
   getCadenceStream: function() {
     return this.cadenceStream;
   },
-  
-  /**
-   * Call this once to stop events.
-   * @param Function callback
-   */
-  _stopRecording: function() {
-    return this.accel.off();
-  },
-  
+
   /**
    * Sets up and connects the accelerometer events to a stream.
    * @param Function callback

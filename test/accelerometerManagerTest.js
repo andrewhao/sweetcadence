@@ -34,16 +34,7 @@ describe('AccelerometerManager', function() {
     });
   });
 
-  describe('#stopRecording', function() {
-    it('passes to the Accel lib', function() {
-      var mockAccel = sinon.mock(this.fakeAccel);
-      mockAccel.expects('off');
-      this.subject.stopRecording()
-      assert(mockAccel.verify());
-    });
-  });
-
-  describe('#startRecording', function() {
+  describe('#getCadenceStream', function() {
     it('returns a stream of cadence events through QuickCadence', function() {
       var stubStream = "some stream"
       var stubQuickCadence = {
@@ -51,13 +42,16 @@ describe('AccelerometerManager', function() {
       };
 
       AccelerometerManager.__set__("QuickCadence", stubQuickCadence);
-
-      output = this.subject.startRecording();
+      this.subject.init();
+      var output = this.subject.getCadenceStream();
       assert.equal(output, stubStream);
     });
 
     it('sources events from the Accel library data event', function(done) {
       var fakeAccel = new EventEmitter();
+      fakeAccel.config = function() {}
+      fakeAccel.init = function() {}
+
       var subject = new AccelerometerManager(fakeAccel);
 
       var dataOne = { x: 1, y: 1, z: 1 }
@@ -66,7 +60,8 @@ describe('AccelerometerManager', function() {
       var nullQuickCadence = { pipe: function(stream) { return stream; } }
       AccelerometerManager.__set__("QuickCadence", nullQuickCadence)
 
-      var outputStream = subject.startRecording();
+      subject.init();
+      var outputStream = subject.getCadenceStream();
 
       outputStream.onValue(function(v) {
         assert.equal(v, dataOne);
