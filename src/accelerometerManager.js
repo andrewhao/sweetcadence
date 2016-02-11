@@ -1,7 +1,7 @@
 // Wraps around the Accel library and provides higher-level event stream.
-var Bacon = require('bacon');
-var QuickCadence = require('quickCadence');
-var inspect = require('objectInspect');
+var Bacon = require('./js/vendor/bacon'),
+    QuickCadence = require('./js/quickCadence'),
+    inspect = require('./js/vendor/objectInspect');
 
 var AccelerometerManager = function(accel, config) {
   this.config = config || {rate: 10, samples: 25};
@@ -12,23 +12,26 @@ AccelerometerManager.prototype = {
   init: function() {
     this.accel.config(this.config);
     this.accel.init();
+    this._startRecording();
   },
 
-  stopRecording: function() {
-    this.accel.off();
+  /**
+   * Returns a Stream of events
+   * @return Bacon.EventStream Stream of Floats representing cadence counts
+   */
+  getCadenceStream: function() {
+    return this.cadenceStream;
   },
 
-  startRecording: function(uiCard) {
+  /**
+   * Sets up and connects the accelerometer events to a stream.
+   * @param Function callback
+   */
+  _startRecording: function() {
     var dataStream = Bacon.fromEvent(this.accel, 'data').map('.accel')
-    dataStream.onValue(function(v) { console.log(inspect(v)) });
-
-    var cadenceStream = QuickCadence.pipe(dataStream);
-
-    cadenceStream.onValue(function(cadenceValue) {
-      uiCard.subtitle(cadenceValue);
-      console.log(cadenceValue);
-    });
-  }
+    this.cadenceStream = QuickCadence.pipe(dataStream);
+    return this.cadenceStream;
+  },
 };
 
 module.exports = AccelerometerManager;
