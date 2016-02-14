@@ -28,8 +28,9 @@ AccelerometerManager.prototype = {
    * @param Function callback
    */
   _startRecording: function() {
-    var dataStream = Bacon.fromEvent(this.accel, 'data').map('.accel')
+    var dataStream = Bacon.fromEvent(this.accel, 'data').map('.accel');
     this.cadenceStream = QuickCadence.pipe(dataStream);
+    //this.cadenceStream = Bacon.repeatedly(1000, [80, 81, 82]);
     return this.cadenceStream;
   },
 };
