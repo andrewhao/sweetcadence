@@ -30,8 +30,8 @@ AccelerometerManager.prototype = {
    */
   _startRecording: function() {
     var dataStream = Rx.Observable.fromEvent(this.accel, 'data')
-    .map(v => v.accel)
-    .tap(v => console.log(v))
+    .map(function(v) { return v.accel})
+    .tap(function(v) {console.log(v)})
     this.cadenceStream = RxCadence.pipe(dataStream)
     .tap(v => console.log(v))
     return this.cadenceStream;
