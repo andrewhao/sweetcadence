@@ -1,7 +1,7 @@
 var UI = require('ui'),
     Vector2 = require('vector2'),
-    Bacon = require('./js/vendor/bacon.js'),
-    inspect = require('./js/vendor/objectInspect');
+    Rx = require('./js/vendor/rx-lite'),
+    inspect = require('./js/vendor/objectInspect'),
 
 var DummyAppController = function(accelManager) {
   this.accelManager = accelManager;
@@ -15,7 +15,7 @@ DummyAppController.prototype = {
     });
     
     var cadenceStream = this.accelManager.getCadenceStream();
-    cadenceStream.onValue(function(v) {
+    cadenceStream.subscribe(function(v) {
       splashCard.body(v);
     });
     

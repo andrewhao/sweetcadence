@@ -1,7 +1,8 @@
 // Wraps around the Accel library and provides higher-level event stream.
 var Bacon = require('./js/vendor/bacon'),
-    QuickCadence = require('./js/quickCadence'),
-    inspect = require('./js/vendor/objectInspect');
+    RxCadence = require('./js/RxCadence'),
+    inspect = require('./js/vendor/objectInspect'),
+    Rx = require('./js/vendor/rx-lite');
 
 var AccelerometerManager = function(accel, config) {
   this.config = config || {rate: 10, samples: 25};
@@ -28,9 +29,11 @@ AccelerometerManager.prototype = {
    * @param Function callback
    */
   _startRecording: function() {
-    var dataStream = Bacon.fromEvent(this.accel, 'data').map('.accel');
-    this.cadenceStream = QuickCadence.pipe(dataStream);
-    //this.cadenceStream = Bacon.repeatedly(1000, [80, 81, 82]);
+    var dataStream = Rx.Observable.fromEvent(this.accel, 'data')
+    .map(v => v.accel)
+    .tap(v => console.log(v))
+    this.cadenceStream = RxCadence.pipe(dataStream)
+    .tap(v => console.log(v))
     return this.cadenceStream;
   },
 };
