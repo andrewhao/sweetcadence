@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/andrewhao/sweetcadence",
   "devDependencies": {
+    "eslint": "^2.2.0",
     "gulp": "^3.9.0",
     "gulp-eslint": "^1.0.0",
     "gulp-watch": "^4.3.5",
