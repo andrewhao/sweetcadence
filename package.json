@@ -28,7 +28,7 @@
   },
   "dependencies": {
     "baconjs": "^0.7.79",
-    "quickcadence": "^1.0.5",
+    "quickcadence": "^1.0.6",
     "rx": "^4.0.8"
   }
 }
