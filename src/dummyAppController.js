@@ -1,6 +1,5 @@
 var UI = require('ui'),
     Vector2 = require('vector2'),
-    Rx = require('./js/vendor/rx-lite'),
     inspect = require('./js/vendor/objectInspect');
 
 var DummyAppController = function(accelManager) {

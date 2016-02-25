@@ -2,7 +2,7 @@
 var Bacon = require('./js/vendor/bacon'),
     RxCadence = require('./js/RxCadence'),
     inspect = require('./js/vendor/objectInspect'),
-    Rx = require('./js/vendor/rx-lite');
+    Rx = require('./js/vendor/rx.lite');
 
 var AccelerometerManager = function(accel, config) {
   this.config = config || {rate: 10, samples: 25};
@@ -29,10 +29,19 @@ AccelerometerManager.prototype = {
    * @param Function callback
    */
   _startRecording: function() {
+    console.log('start:');
     var dataStream = Rx.Observable.fromEvent(this.accel, 'data')
     .map(function(v) { return v.accel })
     .tap(function(v) { console.log(v) })
-    this.cadenceStream = RxCadence.pipe(dataStream)
+    
+    var pingStream = Rx.Observable.interval(100)
+    .tap(function(v) { console.log(v) });
+    
+    console.log('rxcadence:');
+    console.log(RxCadence)
+    console.log(inspect(RxCadence))
+    
+    this.cadenceStream = RxCadence.pipe(pingStream)
     .tap(function(v) { console.log(v) })
     return this.cadenceStream;
   },
