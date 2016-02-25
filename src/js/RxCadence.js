@@ -10,7 +10,7 @@ exports.convertPower = convertPower;
 exports.detectSteps = detectSteps;
 exports.calculateCadence = calculateCadence;
 
-var _rx = require("rx");
+var _rx = require("./vendor/rx.all");
 
 var calculatePower = function calculatePower(d) {
   return parseInt(d.y, 10);
