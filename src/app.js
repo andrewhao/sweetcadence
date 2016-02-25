@@ -10,7 +10,7 @@ var DummyAppController = require('dummyAppController');
 var Accel = require('ui/accel');
 
 var accelManager = new AccelerometerManager(Accel);
-//var appController = new AppController(accelManager);
-var appController = new DummyAppController(accelManager);
+var appController = new AppController(accelManager);
+//var appController = new DummyAppController(accelManager);
 accelManager.init();
 appController.init();

@@ -10,12 +10,12 @@ DummyAppController.prototype = {
   init: function() {
     var self = this;
     var splashCard = new UI.Card({
-      body: "hello"
+      title: 'Initializing...'
     });
     
     var cadenceStream = this.accelManager.getCadenceStream();
     cadenceStream.subscribe(function(v) {
-      splashCard.body(v);
+      splashCard.title(v.toFixed(2));
     });
     
     splashCard.show()

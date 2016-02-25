@@ -39,7 +39,7 @@ AppController.prototype = {
      * Models
      */
     var splashCard = new UI.Card({
-      banner: 'images/splash.png',
+      //banner: 'images/splash.png',
       fullscreen: true
     });
     var recordingCard = new UI.Window({
@@ -80,7 +80,13 @@ AppController.prototype = {
      * Set up, initialize input streams
      */
     var appLaunchStream = Bacon.later(SPLASH_SCREEN_DELAY, APP_LAUNCHED);
-    var cadenceStream = this.accelManager.getCadenceStream();
+    var rxCadenceStream = this.accelManager.getCadenceStream();
+    var cadenceStream = Bacon.fromBinder(function(sink) {
+      rxCadenceStream.subscribe(function(cadenceValue) {
+        sink(cadenceValue);
+      });
+    });
+      
     var recordingCardHideStream = Bacon.fromEvent(recordingCard, 'hide');
     var recordingCardSelectStream = Bacon.fromBinder(function(sink) {
       recordingCard.on('click', 'select', function(e) { sink(e); } );

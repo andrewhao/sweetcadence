@@ -29,22 +29,9 @@ AccelerometerManager.prototype = {
    * @param Function callback
    */
   _startRecording: function() {
-    console.log('start:');
     var dataStream = Rx.Observable.fromEvent(this.accel, 'data')
     .map(function(v) { return v.accel })
-    .tap(function(v) { console.log(v) })
-    
-    var pingStream = Rx.Observable.interval(100)
-    .tap(function(v) { console.log(v) });
-    
-    console.log('rxcadence:');
-    console.log(RxCadence)
-    console.log(inspect(RxCadence))
-    console.log(inspect(RxCadence.pipe))
-    console.log(inspect(pingStream))
-    
-    this.cadenceStream = RxCadence.pipe(pingStream)
-    .tap(function(v) { console.log(v) })
+    this.cadenceStream = RxCadence.pipe(dataStream)
     return this.cadenceStream;
   },
 };
