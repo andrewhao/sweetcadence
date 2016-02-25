@@ -2,7 +2,7 @@
 var Bacon = require('./js/vendor/bacon'),
     RxCadence = require('./js/RxCadence'),
     inspect = require('./js/vendor/objectInspect'),
-    Rx = require('./js/vendor/rx.lite');
+    Rx = require('./js/vendor/rx');
 
 var AccelerometerManager = function(accel, config) {
   this.config = config || {rate: 10, samples: 25};
